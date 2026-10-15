@@ -1,0 +1,127 @@
+@import "tailwindcss";
+
+/* Design tokens. On-chain = violet, off-chain = teal, simulation = amber. */
+@theme {
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono Variable", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --color-ink-950: #06060a;
+  --color-ink-900: #0a0a10;
+  --color-ink-850: #0e0e16;
+  --color-ink-800: #13131d;
+  --color-ink-700: #1b1b28;
+  --color-ink-600: #262636;
+
+  --color-fg: #ececf3;
+  --color-fg-muted: #a3a3b8;
+  --color-fg-subtle: #6e6e85;
+
+  --color-chain: #a78bfa;
+  --color-chain-strong: #8b5cf6;
+  --color-chain-deep: #2a1d4f;
+  --color-off: #2dd4bf;
+  --color-off-strong: #14b8a6;
+  --color-off-deep: #0f3a37;
+  --color-sim: #fbbf24;
+  --color-danger: #fb7185;
+  --color-ok: #4ade80;
+}
+
+html,
+body {
+  height: 100%;
+  background: var(--color-ink-950);
+  color: var(--color-fg);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden;
+}
+
+/* Presenter scaling: everything is rem-based, so the root size tunes the whole deck to the screen. */
+@media (min-width: 1024px) and (max-height: 860px) {
+  html {
+    font-size: 15px;
+  }
+}
+@media (min-width: 1024px) and (max-height: 760px) {
+  html {
+    font-size: 14px;
+  }
+}
+@media (min-width: 1024px) and (max-height: 640px) {
+  html {
+    font-size: 13px;
+  }
+}
+@media (min-width: 1760px) and (min-height: 1000px) {
+  html {
+    font-size: 18px;
+  }
+}
+
+::selection {
+  background: color-mix(in oklab, var(--color-chain) 35%, transparent);
+}
+
+@layer components {
+  /* Faint grid that gives the canvas some depth without glow. */
+  .bg-canvas {
+    background-color: var(--color-ink-950);
+    background-image:
+      radial-gradient(1200px 600px at 85% -10%, color-mix(in oklab, var(--color-chain-strong) 14%, transparent), transparent 60%),
+      radial-gradient(900px 500px at -10% 110%, color-mix(in oklab, var(--color-off-strong) 10%, transparent), transparent 60%),
+      linear-gradient(to right, rgb(255 255 255 / 0.025) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(255 255 255 / 0.025) 1px, transparent 1px);
+    background-size: auto, auto, 48px 48px, 48px 48px;
+  }
+
+  .text-gradient {
+    background: linear-gradient(100deg, #c4b5fd 0%, #a78bfa 35%, #5eead4 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .card {
+    background: linear-gradient(180deg, rgb(255 255 255 / 0.035), rgb(255 255 255 / 0.015));
+    border: 1px solid rgb(255 255 255 / 0.08);
+    border-radius: 16px;
+  }
+
+  .slide-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-ink-600) transparent;
+  }
+
+  .kbd {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    padding: 0.1rem 0.4rem;
+    border-radius: 6px;
+    border: 1px solid rgb(255 255 255 / 0.14);
+    background: rgb(255 255 255 / 0.05);
+    color: var(--color-fg-muted);
+  }
+}
+
+@keyframes dash {
+  to {
+    stroke-dashoffset: -24;
+  }
+}
+
+.edge-flow {
+  stroke-dasharray: 6 6;
+  animation: dash 0.9s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .edge-flow {
+    animation: none;
+  }
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-chain);
+  outline-offset: 2px;
+}
